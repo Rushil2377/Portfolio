@@ -22,7 +22,9 @@ import {
   Github,
   Linkedin,
   Download,
-  Loader2
+  Loader2,
+  Trophy,
+  Zap
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -36,6 +38,20 @@ export default function ResumeDialog() {
     'MySQL', 'HTML', 'CSS', 'Java', 'C', 'C++'
   ];
 
+  const strengths = [
+    'Analytical Mindset',
+    'Quick Learner',
+    'Attention to Detail',
+    'Creative Problem Solving'
+  ];
+
+  const abilities = [
+    'Agile Methodologies',
+    'Technical Documentation',
+    'Cross-functional Collaboration',
+    'UI/UX Fundamentals'
+  ];
+
   const handleDownload = async () => {
     if (!resumeRef.current) return;
     setIsDownloading(true);
@@ -43,13 +59,11 @@ export default function ResumeDialog() {
     try {
       const element = resumeRef.current;
       
-      // Capture the element using html2canvas
       const canvas = await html2canvas(element, {
-        scale: 2, // Higher scale for better quality
+        scale: 2,
         useCORS: true,
-        backgroundColor: '#0a0b14', // Match the card/dark background
+        backgroundColor: '#0a0b14',
         logging: false,
-        // Ignore the footer containing the download button in the PDF
         ignoreElements: (el) => el.classList.contains('no-pdf'),
       });
 
@@ -78,11 +92,10 @@ export default function ResumeDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] bg-card border-white/10 p-0 overflow-hidden">
-        {/* Accessibility Requirements */}
         <DialogHeader className="sr-only">
           <DialogTitle>Marvaniya Rusilkumar P. - Resume</DialogTitle>
           <DialogDescription>
-            Professional background, education, and technical skills of Marvaniya Rusilkumar P., a Computer Science Engineer.
+            Professional background, education, technical skills, strengths and abilities of Marvaniya Rusilkumar P.
           </DialogDescription>
         </DialogHeader>
 
@@ -128,6 +141,20 @@ export default function ResumeDialog() {
 
                 <section>
                   <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-accent" /> Key Strengths
+                  </h3>
+                  <ul className="space-y-3">
+                    {strengths.map(strength => (
+                      <li key={strength} className="text-sm text-muted-foreground flex items-center gap-2">
+                        <div className="w-1 h-1 rounded-full bg-accent" />
+                        {strength}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section>
+                  <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
                     <GraduationCap className="w-4 h-4 text-accent" /> Education
                   </h3>
                   <div className="space-y-4">
@@ -164,6 +191,19 @@ export default function ResumeDialog() {
                         Built a robust backend using Node.js and MySQL to manage large datasets for university resource allocation. Optimized query performance by 40%.
                       </p>
                     </div>
+                  </div>
+                </section>
+
+                <section>
+                  <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-accent" /> Core Abilities
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {abilities.map(ability => (
+                      <div key={ability} className="p-3 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-center">
+                        {ability}
+                      </div>
+                    ))}
                   </div>
                 </section>
 
