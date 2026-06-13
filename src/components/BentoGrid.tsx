@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -28,6 +27,25 @@ interface Project {
   span: string;
 }
 
+const DEFAULT_PROJECTS: Project[] = [
+  {
+    id: 'vertex-studio-default',
+    title: 'Vertex Studio Portfolio',
+    desc: 'Developed a high-end 3D portfolio using Next.js 15, Three.js, and GenAI. Features interactive vertex geometry and AI-powered technical writing tools.',
+    imageHint: 'technology',
+    tags: ['Next.js', 'Three.js', 'GenAI'],
+    span: 'md:col-span-2 md:row-span-2',
+  },
+  {
+    id: 'mgmt-system-default',
+    title: 'Full-stack Management System',
+    desc: 'Built a robust backend using Node.js and MySQL to manage large datasets for university resource allocation. Optimized query performance by 40%.',
+    imageHint: 'dashboard',
+    tags: ['Node.js', 'MySQL', 'Backend'],
+    span: 'md:col-span-1 md:row-span-1',
+  }
+];
+
 export default function BentoGrid() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -41,7 +59,12 @@ export default function BentoGrid() {
         setProjects(JSON.parse(savedProjects));
       } catch (e) {
         console.error('Failed to parse projects', e);
+        setProjects(DEFAULT_PROJECTS);
       }
+    } else {
+      // Initialize with resume projects if local storage is empty
+      setProjects(DEFAULT_PROJECTS);
+      localStorage.setItem('vertex-projects', JSON.stringify(DEFAULT_PROJECTS));
     }
   }, []);
 
