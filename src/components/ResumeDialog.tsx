@@ -44,11 +44,11 @@ export default function ResumeDialog() {
             <header className="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-white/5 pb-12">
               <div>
                 <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter mb-2">
-                  Marvaniya Rusiljumar P.
+                  Marvaniya Rusilkumar P.
                 </h1>
                 <p className="text-accent text-lg font-medium">Computer Science Engineer & Full-stack Developer</p>
                 <div className="flex flex-wrap gap-4 mt-6 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> rusiljumar.p@example.com</span>
+                  <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> rusilkumar.p@example.com</span>
                   <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Vadodara, Gujarat</span>
                 </div>
               </div>

@@ -45,7 +45,7 @@ export default function Home() {
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-            I am <span className="text-white font-bold">Marvaniya Rusiljumar P.</span>, a CSE Engineer specializing in high-performance web experiences and technical architecture.
+            I am <span className="text-white font-bold">Marvaniya Rusilkumar P.</span>, a CSE Engineer specializing in high-performance web experiences and technical architecture.
           </p>
           
           <div className="flex flex-col md:flex-row gap-6 justify-center">
