@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -38,6 +39,14 @@ export default function ResumeDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] bg-card border-white/10 p-0 overflow-hidden">
+        {/* Accessibility Requirements */}
+        <DialogHeader className="sr-only">
+          <DialogTitle>Marvaniya Rusilkumar P. - Resume</DialogTitle>
+          <DialogDescription>
+            Professional background, education, and technical skills of Marvaniya Rusilkumar P., a Computer Science Engineer.
+          </DialogDescription>
+        </DialogHeader>
+
         <ScrollArea className="h-full max-h-[90vh]">
           <div className="p-8 md:p-12 space-y-12">
             {/* Header */}
