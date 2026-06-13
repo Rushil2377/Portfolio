@@ -1,9 +1,8 @@
-
 'use client';
 
 import React from 'react';
 import Image from 'next/image';
-import { PlaceHolderImages } from '@/app/lib/placeholder-images';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { ExternalLink, Github } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 

@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Sparkles, Send, Copy, Check } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { Badge } from '@/components/ui/badge';
 
 export default function CaseStudyTool() {
   const [loading, setLoading] = useState(false);
