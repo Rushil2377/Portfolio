@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -19,16 +19,55 @@ import {
   GraduationCap, 
   Code2, 
   Briefcase, 
-  ExternalLink,
   Github,
-  Linkedin
+  Linkedin,
+  Download,
+  Loader2
 } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function ResumeDialog() {
+  const resumeRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const skills = [
     'React', 'Next.js', 'TypeScript', 'Node.js', 
     'MySQL', 'HTML', 'CSS', 'Java', 'C', 'C++'
   ];
+
+  const handleDownload = async () => {
+    if (!resumeRef.current) return;
+    setIsDownloading(true);
+
+    try {
+      const element = resumeRef.current;
+      
+      // Capture the element using html2canvas
+      const canvas = await html2canvas(element, {
+        scale: 2, // Higher scale for better quality
+        useCORS: true,
+        backgroundColor: '#0a0b14', // Match the card/dark background
+        logging: false,
+        // Ignore the footer containing the download button in the PDF
+        ignoreElements: (el) => el.classList.contains('no-pdf'),
+      });
+
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('Marvaniya_Rusilkumar_Resume.pdf');
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <Dialog>
@@ -48,7 +87,7 @@ export default function ResumeDialog() {
         </DialogHeader>
 
         <ScrollArea className="h-full max-h-[90vh]">
-          <div className="p-8 md:p-12 space-y-12">
+          <div ref={resumeRef} className="p-8 md:p-12 space-y-12 bg-card text-foreground">
             {/* Header */}
             <header className="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-white/5 pb-12">
               <div>
@@ -61,7 +100,7 @@ export default function ResumeDialog() {
                   <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Vadodara, Gujarat</span>
                 </div>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-3 no-pdf">
                 <Button size="icon" variant="outline" className="rounded-full border-white/10 hover:bg-white/10">
                   <Github className="w-4 h-4" />
                 </Button>
@@ -137,9 +176,23 @@ export default function ResumeDialog() {
               </div>
             </div>
 
-            <footer className="pt-8 border-t border-white/5 text-center">
-              <Button className="bg-accent hover:bg-accent/90 text-black font-bold rounded-full px-8">
-                Download PDF
+            <footer className="pt-8 border-t border-white/5 text-center no-pdf">
+              <Button 
+                onClick={handleDownload}
+                disabled={isDownloading}
+                className="bg-accent hover:bg-accent/80 text-black font-bold rounded-full px-8"
+              >
+                {isDownloading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Generating PDF...
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4 mr-2" />
+                    Download PDF
+                  </>
+                )}
               </Button>
             </footer>
           </div>
