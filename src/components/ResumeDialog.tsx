@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -109,7 +110,7 @@ export default function ResumeDialog() {
                 </h1>
                 <p className="text-accent text-lg font-medium">Computer Science Engineer & Full-stack Developer</p>
                 <div className="flex flex-wrap gap-4 mt-6 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> rusilkumar.p@example.com</span>
+                  <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> rusilmarvaniya@gmail.com</span>
                   <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Vadodara, Gujarat</span>
                 </div>
               </div>
@@ -224,12 +225,12 @@ export default function ResumeDialog() {
               >
                 {isDownloading ? (
                   <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     Generating PDF...
                   </>
                 ) : (
                   <>
-                    <Download className="w-4 h-4 mr-2" />
+                    <Download className="h-4 w-4 mr-2" />
                     Download PDF
                   </>
                 )}
