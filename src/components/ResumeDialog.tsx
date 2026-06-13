@@ -161,7 +161,7 @@ export default function ResumeDialog() {
                     <div>
                       <h4 className="font-bold text-sm">B.E. Computer Science</h4>
                       <p className="text-xs text-muted-foreground">Maharaja Sayajirao University (MSU)</p>
-                      <p className="text-xs text-accent mt-1">2021 — Present</p>
+                      <p className="text-xs text-accent mt-1">2024 — Present</p>
                     </div>
                   </div>
                 </section>
