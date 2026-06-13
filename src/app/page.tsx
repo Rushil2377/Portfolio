@@ -1,11 +1,11 @@
-
 import ThreeHero from '@/components/ThreeHero';
 import TechStack from '@/components/TechStack';
 import BentoGrid from '@/components/BentoGrid';
 import CaseStudyTool from '@/components/CaseStudyTool';
 import ContactHub from '@/components/ContactHub';
+import ResumeDialog from '@/components/ResumeDialog';
 import { Toaster } from '@/components/ui/toaster';
-import { ArrowRight, MousePointer2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
@@ -23,9 +23,7 @@ export default function Home() {
           <a href="#ai-tool" className="hover:text-accent transition-colors">AI Lab</a>
           <a href="#contact" className="hover:text-accent transition-colors">Contact</a>
         </div>
-        <Button variant="outline" className="border-white/20 text-white rounded-full px-6 hover:bg-white hover:text-black">
-          Resume
-        </Button>
+        <ResumeDialog />
       </nav>
 
       {/* Hero Section */}
@@ -47,7 +45,7 @@ export default function Home() {
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-            A Senior Creative Developer specializing in high-performance 3D web experiences, technical architecture, and interactive storytelling.
+            I am <span className="text-white font-bold">Marvaniya Rusiljumar P.</span>, a CSE Engineer specializing in high-performance web experiences and technical architecture.
           </p>
           
           <div className="flex flex-col md:flex-row gap-6 justify-center">
