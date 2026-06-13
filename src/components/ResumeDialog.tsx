@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useRef, useState } from 'react';
@@ -115,9 +114,11 @@ export default function ResumeDialog() {
                 </div>
               </div>
               <div className="flex gap-3 no-pdf">
-                <Button size="icon" variant="outline" className="rounded-full border-white/10 hover:bg-white/10">
-                  <Github className="w-4 h-4" />
-                </Button>
+                <a href="https://github.com/Rushil2377" target="_blank" rel="noopener noreferrer">
+                  <Button size="icon" variant="outline" className="rounded-full border-white/10 hover:bg-white/10">
+                    <Github className="w-4 h-4" />
+                  </Button>
+                </a>
                 <Button size="icon" variant="outline" className="rounded-full border-white/10 hover:bg-white/10">
                   <Linkedin className="w-4 h-4" />
                 </Button>

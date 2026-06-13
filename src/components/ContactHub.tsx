@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -64,7 +63,7 @@ export default function ContactHub() {
             
             <div className="flex gap-4 pt-6">
               {[
-                { icon: Github, href: "https://github.com" },
+                { icon: Github, href: "https://github.com/Rushil2377" },
                 { icon: Linkedin, href: "https://linkedin.com" },
                 { icon: Twitter, href: "https://twitter.com" }
               ].map((social, i) => (

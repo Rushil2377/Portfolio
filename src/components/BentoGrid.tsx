@@ -197,9 +197,14 @@ export default function BentoGrid() {
                   <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors">
                     <ExternalLink className="w-3 h-3" /> Live
                   </button>
-                  <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors">
+                  <a 
+                    href="https://github.com/Rushil2377" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors"
+                  >
                     <Github className="w-3 h-3" /> Code
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
