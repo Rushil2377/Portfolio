@@ -38,7 +38,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'artificial intelligence',
     tags: ['Genkit', 'Next.js', 'AI'],
     span: '',
-    previewUrl: '#'
+    previewUrl: 'https://github.com/Rushil2377'
   },
   {
     id: 'p2',
@@ -47,7 +47,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: '3d data',
     tags: ['Three.js', 'React', 'D3.js'],
     span: '',
-    previewUrl: '#'
+    previewUrl: 'https://github.com/Rushil2377'
   },
   {
     id: 'p3',
@@ -56,7 +56,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'finance technology',
     tags: ['TypeScript', 'Node.js', 'Redis'],
     span: '',
-    previewUrl: '#'
+    previewUrl: 'https://github.com/Rushil2377'
   },
   {
     id: 'p4',
@@ -65,7 +65,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'business dashboard',
     tags: ['PostgreSQL', 'Tailwind', 'Next.js'],
     span: '',
-    previewUrl: '#'
+    previewUrl: 'https://github.com/Rushil2377'
   },
   {
     id: 'p5',
@@ -74,7 +74,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'content management',
     tags: ['GraphQL', 'Next.js', 'Cloudflare'],
     span: '',
-    previewUrl: '#'
+    previewUrl: 'https://github.com/Rushil2377'
   },
   {
     id: 'p6',
@@ -83,7 +83,61 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'communication technology',
     tags: ['WebSockets', 'Go', 'React'],
     span: '',
-    previewUrl: '#'
+    previewUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p7',
+    title: 'Titan Blockchain',
+    desc: 'Decentralized identity protocol for secure enterprise asset management.',
+    imageHint: 'blockchain technology',
+    tags: ['Solidity', 'Web3.js', 'Ethereum'],
+    span: '',
+    previewUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p8',
+    title: 'Orbital Tracker',
+    desc: 'Real-time satellite tracking and debris mapping system for space agencies.',
+    imageHint: 'satellite space',
+    tags: ['Python', 'WebGL', 'AWS'],
+    span: '',
+    previewUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p9',
+    title: 'Holos AR Mesh',
+    desc: 'Mobile AR application for real-time interior design and spatial 3D mapping.',
+    imageHint: 'augmented reality',
+    tags: ['Unity', 'ARCore', 'C#'],
+    span: '',
+    previewUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p10',
+    title: 'Pulse IoT Grid',
+    desc: 'Industrial IoT monitoring system with predictive maintenance algorithms.',
+    imageHint: 'industrial internet',
+    tags: ['MQTT', 'InfluxDB', 'React'],
+    span: '',
+    previewUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p11',
+    title: 'Glacier Search',
+    desc: 'High-performance vector database search engine for unstructured medical data.',
+    imageHint: 'vector database',
+    tags: ['Rust', 'Vector DB', 'gRPC'],
+    span: '',
+    previewUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p12',
+    title: 'Cipher Vault',
+    desc: 'Quantum-resistant encryption layer for distributed cloud storage architectures.',
+    imageHint: 'cyber security',
+    tags: ['Cryptography', 'C++', 'Azure'],
+    span: '',
+    previewUrl: 'https://github.com/Rushil2377'
   }
 ];
 
@@ -92,7 +146,9 @@ export default function BentoGrid() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [base64Image, setBase64Image] = useState<string | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const autoScrollRef = useRef<number | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -110,6 +166,37 @@ export default function BentoGrid() {
       localStorage.setItem('vertex-projects', JSON.stringify(DEFAULT_PROJECTS));
     }
   }, []);
+
+  // Auto-scrolling logic
+  useEffect(() => {
+    if (!mounted || projects.length === 0 || isPaused) {
+      if (autoScrollRef.current) cancelAnimationFrame(autoScrollRef.current);
+      return;
+    }
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const scrollSpeed = 0.5; // Pixels per frame
+
+    const animate = () => {
+      if (container) {
+        container.scrollLeft += scrollSpeed;
+        
+        // Loop back to start if we reach the end
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+          container.scrollLeft = 0;
+        }
+      }
+      autoScrollRef.current = requestAnimationFrame(animate);
+    };
+
+    autoScrollRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (autoScrollRef.current) cancelAnimationFrame(autoScrollRef.current);
+    };
+  }, [mounted, projects, isPaused]);
 
   const saveProjects = (newProjects: Project[]) => {
     setProjects(newProjects);
@@ -159,7 +246,7 @@ export default function BentoGrid() {
       imageHint: 'custom',
       tags: (formData.get('tags') as string).split(',').map(t => t.trim()).filter(Boolean),
       span: '',
-      previewUrl: formData.get('previewUrl') as string || '#',
+      previewUrl: formData.get('previewUrl') as string || 'https://github.com/Rushil2377',
       customImage: base64Image || undefined
     };
 
@@ -203,6 +290,8 @@ export default function BentoGrid() {
               size="icon" 
               className="rounded-full border-white/10 hover:bg-white/5"
               onClick={() => scroll('left')}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
             >
               <ChevronLeft className="w-5 h-5" />
             </Button>
@@ -211,6 +300,8 @@ export default function BentoGrid() {
               size="icon" 
               className="rounded-full border-white/10 hover:bg-white/5"
               onClick={() => scroll('right')}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
             >
               <ChevronRight className="w-5 h-5" />
             </Button>
@@ -287,7 +378,9 @@ export default function BentoGrid() {
       ) : (
         <div 
           ref={scrollContainerRef}
-          className="flex overflow-x-auto gap-6 px-6 md:px-12 pb-12 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10 hover:scrollbar-thumb-accent/20 transition-colors"
+          className="flex overflow-x-auto no-scrollbar gap-6 px-6 md:px-12 pb-12 snap-x snap-mandatory"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
         >
           {projects.map((project) => (
             <div 
@@ -335,7 +428,7 @@ export default function BentoGrid() {
                 </p>
                 <div className="flex gap-6 items-center">
                   <a 
-                    href={project.previewUrl || "#"} 
+                    href={project.previewUrl || "https://github.com/Rushil2377"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors group/btn"

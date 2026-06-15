@@ -36,6 +36,16 @@
   }
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
 .neon-glow {
   text-shadow: 0 0 10px rgba(77, 224, 255, 0.5), 0 0 20px rgba(77, 224, 255, 0.3);
 }
