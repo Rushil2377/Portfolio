@@ -25,7 +25,65 @@ interface Project {
   imageHint: string;
   tags: string[];
   span: string;
+  githubUrl?: string;
 }
+
+const DEFAULT_PROJECTS: Project[] = [
+  {
+    id: 'p1',
+    title: 'Aura AI Assistant',
+    desc: 'Advanced conversational agent built with Genkit and Gemini, featuring real-time speech-to-text and intent recognition.',
+    imageHint: 'artificial intelligence',
+    tags: ['Genkit', 'Next.js', 'AI'],
+    span: 'md:col-span-2 md:row-span-2',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p2',
+    title: 'Vertex 3D Analytics',
+    desc: 'Interactive data visualization dashboard using Three.js and D3.js for complex spatial data mapping.',
+    imageHint: '3d data',
+    tags: ['Three.js', 'React', 'D3.js'],
+    span: 'md:col-span-1 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p3',
+    title: 'SwiftPay Fintech',
+    desc: 'A secure, high-performance payment processing engine with real-time fraud detection and transaction monitoring.',
+    imageHint: 'financial technology',
+    tags: ['TypeScript', 'Node.js', 'Redis'],
+    span: 'md:col-span-1 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p4',
+    title: 'Nexus CRM Dashboard',
+    desc: 'Enterprise-grade customer relationship management system with automated lead scoring and pipeline analytics.',
+    imageHint: 'business dashboard',
+    tags: ['PostgreSQL', 'Tailwind', 'Next.js'],
+    span: 'md:col-span-1 md:row-span-2',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p5',
+    title: 'Lumen CMS',
+    desc: 'A lightning-fast, headless content management system optimized for edge delivery and global scalability.',
+    imageHint: 'content management',
+    tags: ['GraphQL', 'Next.js', 'Cloudflare'],
+    span: 'md:col-span-2 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p6',
+    title: 'Echo Real-time Chat',
+    desc: 'Scalable messaging platform supporting millions of concurrent connections using WebSockets and optimized state sync.',
+    imageHint: 'communication technology',
+    tags: ['WebSockets', 'Go', 'React'],
+    span: 'md:col-span-1 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  }
+];
 
 export default function BentoGrid() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -37,11 +95,15 @@ export default function BentoGrid() {
     const savedProjects = localStorage.getItem('vertex-projects');
     if (savedProjects) {
       try {
-        setProjects(JSON.parse(savedProjects));
+        const parsed = JSON.parse(savedProjects);
+        setProjects(parsed.length > 0 ? parsed : DEFAULT_PROJECTS);
       } catch (e) {
         console.error('Failed to parse projects', e);
-        setProjects([]);
+        setProjects(DEFAULT_PROJECTS);
       }
+    } else {
+      setProjects(DEFAULT_PROJECTS);
+      localStorage.setItem('vertex-projects', JSON.stringify(DEFAULT_PROJECTS));
     }
   }, []);
 
@@ -60,7 +122,8 @@ export default function BentoGrid() {
       desc: formData.get('desc') as string,
       imageHint: (formData.get('imageHint') as string) || 'technology',
       tags: (formData.get('tags') as string).split(',').map(t => t.trim()).filter(Boolean),
-      span: (projects.length + 1) % 3 === 0 ? 'md:col-span-2 md:row-span-2' : 'md:col-span-1 md:row-span-1',
+      span: (projects.length + 1) % 3 === 0 ? 'md:col-span-2 md:row-span-1' : 'md:col-span-1 md:row-span-1',
+      githubUrl: 'https://github.com/Rushil2377'
     };
 
     saveProjects([...projects, newProject]);
@@ -139,7 +202,10 @@ export default function BentoGrid() {
                   size="icon" 
                   variant="destructive" 
                   className="rounded-full h-8 w-8"
-                  onClick={() => deleteProject(project.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteProject(project.id);
+                  }}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
@@ -175,7 +241,7 @@ export default function BentoGrid() {
                     <ExternalLink className="w-3 h-3" /> Live
                   </button>
                   <a 
-                    href="https://github.com/Rushil2377" 
+                    href={project.githubUrl || "https://github.com/Rushil2377"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors"
