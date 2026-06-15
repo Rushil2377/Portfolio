@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -5,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Github, Linkedin, Twitter, ArrowRight, Loader2, Send, Phone, CheckCircle2 } from 'lucide-react';
+import { Mail, Github, Linkedin, Twitter, ArrowRight, Loader2, Send, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { sendContactEmail } from '@/app/actions/send-email';
 
 export default function ContactHub() {
   const { toast } = useToast();
@@ -24,28 +26,40 @@ export default function ContactHub() {
       message: formData.get('message') as string,
     };
 
-    // Simulate network delay for email processing
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const result = await sendContactEmail(data);
 
-    toast({
-      title: "Message Route Established!",
-      description: (
-        <div className="flex flex-col gap-2">
-          <p>Thank you, {data.name}. Your message has been sent to rushilmarvaniya@gmail.com.</p>
-          <div className="flex items-center gap-2 text-accent font-bold">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>Auto-reply sent to {data.email}</span>
+      if (result.success) {
+        toast({
+          title: "Message Sent!",
+          description: (
+            <div className="flex flex-col gap-2">
+              <p>Thank you, {data.name}. A confirmation email has been sent to {data.email}.</p>
+              <div className="flex items-center gap-2 text-accent font-bold">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>"We are reply as soon as possible."</span>
+              </div>
+            </div>
+          ),
+        });
+        (e.target as HTMLFormElement).reset();
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Submission Failed",
+        description: (
+          <div className="flex items-center gap-2">
+            <AlertCircle className="w-4 h-4" />
+            <span>Could not send email. Please try again later.</span>
           </div>
-        </div>
-      ),
-    });
-
-    // In a production environment, you would use a service like Resend or SendGrid here:
-    // console.log(`Simulating: Sending email from rushilmarvaniya@gmail.com to ${data.email}`);
-    // console.log(`Body: Thank you for sending message. We are reply as soon as possible.`);
-
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+        ),
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -84,8 +98,8 @@ export default function ContactHub() {
             <div className="flex gap-4 pt-6">
               {[
                 { icon: Github, href: "https://github.com/Rushil2377" },
-                { icon: Linkedin, href: "https://linkedin.com" },
-                { icon: Twitter, href: "https://twitter.com" }
+                { icon: Linkedin, href: "https://github.com/Rushil2377" },
+                { icon: Twitter, href: "https://github.com/Rushil2377" }
               ].map((social, i) => (
                 <a 
                   key={i} 
