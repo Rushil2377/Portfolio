@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Github, Linkedin, Twitter, ArrowRight, Loader2, Send } from 'lucide-react';
+import { Mail, Github, Linkedin, Twitter, ArrowRight, Loader2, Send, Phone } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ContactHub() {
@@ -24,9 +24,6 @@ export default function ContactHub() {
       message: formData.get('message'),
     };
 
-    // Simulate the email sending process
-    // In a production environment, you would call a Server Action here
-    // that uses a service like Resend or Nodemailer.
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     toast({
@@ -47,7 +44,7 @@ export default function ContactHub() {
             <span className="text-accent">the next vertex.</span>
           </h2>
           <p className="text-muted-foreground text-xl mb-12 max-w-md">
-            Open for collaborations, interesting technical challenges, or just a virtual coffee about 3D web.
+            Open for collaborations, interesting technical challenges, or just a virtual coffee.
           </p>
           
           <div className="space-y-6">
@@ -56,8 +53,18 @@ export default function ContactHub() {
                 <Mail className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Direct Mail</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Email</p>
                 <span className="font-headline font-bold text-lg group-hover:text-accent transition-colors">rusilmarvaniya@gmail.com</span>
+              </div>
+            </a>
+
+            <a href="tel:+919558415136" className="flex items-center gap-4 group">
+              <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/5 transition-all">
+                <Phone className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Phone</p>
+                <span className="font-headline font-bold text-lg group-hover:text-accent transition-colors">+91 9558415136</span>
               </div>
             </a>
             
@@ -121,9 +128,6 @@ export default function ContactHub() {
                   </>
                 )}
               </Button>
-              <p className="text-[10px] text-center text-muted-foreground mt-4 italic">
-                Secure encryption enabled. Your data is routed directly to Marvaniya.
-              </p>
             </form>
           </div>
         </div>

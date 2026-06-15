@@ -24,7 +24,11 @@ import {
   Download,
   Loader2,
   Trophy,
-  Zap
+  Zap,
+  Phone,
+  Languages,
+  Award,
+  User
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -45,11 +49,16 @@ export default function ResumeDialog() {
     'Creative Problem Solving'
   ];
 
-  const abilities = [
-    'Agile Methodologies',
-    'Technical Documentation',
-    'Cross-functional Collaboration',
-    'UI/UX Fundamentals'
+  const languages = [
+    'English (Professional)',
+    'Hindi (Native)',
+    'Gujarati (Native)'
+  ];
+
+  const certificates = [
+    'Full Stack Web Development - Coursera',
+    'JavaScript Algorithms - freeCodeCamp',
+    'Java Masterclass - Udemy'
   ];
 
   const handleDownload = async () => {
@@ -70,9 +79,8 @@ export default function ResumeDialog() {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       
-      const imgProps = pdf.getImageProperties(imgData);
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
       
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       pdf.save('Marvaniya_Rusilkumar_Resume.pdf');
@@ -94,23 +102,23 @@ export default function ResumeDialog() {
       <DialogContent className="max-w-4xl max-h-[90vh] bg-card border-white/10 p-0 overflow-hidden">
         <DialogHeader className="sr-only">
           <DialogTitle>Marvaniya Rusilkumar P. - Resume</DialogTitle>
-          <DialogDescription>
-            Professional background, education, technical skills, strengths and abilities of Marvaniya Rusilkumar P.
-          </DialogDescription>
+          <DialogDescription>Professional portfolio and experience of Marvaniya Rusilkumar P.</DialogDescription>
         </DialogHeader>
 
         <ScrollArea className="h-full max-h-[90vh]">
           <div ref={resumeRef} className="p-8 md:p-12 space-y-12 bg-card text-foreground">
-            {/* Header */}
+            {/* Header / Contact Info */}
             <header className="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-white/5 pb-12">
               <div>
                 <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter mb-2">
                   Marvaniya Rusilkumar P.
                 </h1>
                 <p className="text-accent text-lg font-medium">Computer Science Engineer & Full-stack Developer</p>
-                <div className="flex flex-wrap gap-4 mt-6 text-sm text-muted-foreground">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 text-sm text-muted-foreground">
                   <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> rusilmarvaniya@gmail.com</span>
+                  <span className="flex items-center gap-2"><Phone className="w-4 h-4" /> +91 9558415136</span>
                   <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Vadodara, Gujarat</span>
+                  <span className="flex items-center gap-2"><Github className="w-4 h-4" /> github.com/Rushil2377</span>
                 </div>
               </div>
               <div className="flex gap-3 no-pdf">
@@ -130,7 +138,16 @@ export default function ResumeDialog() {
               <div className="md:col-span-1 space-y-12">
                 <section>
                   <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
-                    <Code2 className="w-4 h-4 text-accent" /> Tech Stack
+                    <User className="w-4 h-4 text-accent" /> Profile
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Motivated Computer Science Engineering student with a strong foundation in full-stack development. Passionate about creating efficient, scalable solutions and intuitive user experiences.
+                  </p>
+                </section>
+
+                <section>
+                  <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
+                    <Code2 className="w-4 h-4 text-accent" /> Skill Set
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {skills.map(skill => (
@@ -143,13 +160,13 @@ export default function ResumeDialog() {
 
                 <section>
                   <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
-                    <Trophy className="w-4 h-4 text-accent" /> Key Strengths
+                    <Languages className="w-4 h-4 text-accent" /> Languages
                   </h3>
-                  <ul className="space-y-3">
-                    {strengths.map(strength => (
-                      <li key={strength} className="text-sm text-muted-foreground flex items-center gap-2">
+                  <ul className="space-y-2">
+                    {languages.map(lang => (
+                      <li key={lang} className="text-sm text-muted-foreground flex items-center gap-2">
                         <div className="w-1 h-1 rounded-full bg-accent" />
-                        {strength}
+                        {lang}
                       </li>
                     ))}
                   </ul>
@@ -157,15 +174,15 @@ export default function ResumeDialog() {
 
                 <section>
                   <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
-                    <GraduationCap className="w-4 h-4 text-accent" /> Education
+                    <Award className="w-4 h-4 text-accent" /> Certificates
                   </h3>
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-bold text-sm">B.E. Computer Science</h4>
-                      <p className="text-xs text-muted-foreground">Maharaja Sayajirao University (MSU)</p>
-                      <p className="text-xs text-accent mt-1">2024 — Present</p>
-                    </div>
-                  </div>
+                  <ul className="space-y-3">
+                    {certificates.map(cert => (
+                      <li key={cert} className="text-xs text-muted-foreground italic leading-relaxed">
+                        • {cert}
+                      </li>
+                    ))}
+                  </ul>
                 </section>
               </div>
 
@@ -173,47 +190,58 @@ export default function ResumeDialog() {
               <div className="md:col-span-2 space-y-12">
                 <section>
                   <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
-                    <Briefcase className="w-4 h-4 text-accent" /> Projects & Experience
+                    <GraduationCap className="w-4 h-4 text-accent" /> Education
                   </h3>
-                  <div className="space-y-8">
+                  <div className="space-y-4">
                     <div className="relative pl-6 border-l border-white/5">
                       <div className="absolute left-0 top-1 w-2 h-2 rounded-full bg-accent -translate-x-[4.5px]" />
-                      <h4 className="font-bold">Vertex Studio Portfolio</h4>
-                      <p className="text-xs text-muted-foreground mb-3">Personal Branding • 2024</p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        Developed a high-end 3D portfolio using Next.js 15, Three.js, and GenAI. Features interactive vertex geometry and AI-powered technical writing tools.
-                      </p>
-                    </div>
-
-                    <div className="relative pl-6 border-l border-white/5">
-                      <div className="absolute left-0 top-1 w-2 h-2 rounded-full bg-accent -translate-x-[4.5px]" />
-                      <h4 className="font-bold">Full-stack Management System</h4>
-                      <p className="text-xs text-muted-foreground mb-3">Academic Project • 2023</p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        Built a robust backend using Node.js and MySQL to manage large datasets for university resource allocation. Optimized query performance by 40%.
-                      </p>
+                      <h4 className="font-bold">B.E. Computer Science Engineering</h4>
+                      <p className="text-xs text-muted-foreground">Maharaja Sayajirao University (MSU) of Baroda</p>
+                      <p className="text-xs text-accent mt-1">2024 — Present</p>
                     </div>
                   </div>
                 </section>
 
                 <section>
                   <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
-                    <Zap className="w-4 h-4 text-accent" /> Core Abilities
+                    <Briefcase className="w-4 h-4 text-accent" /> Projects & Work Experience
                   </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {abilities.map(ability => (
-                      <div key={ability} className="p-3 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-center">
-                        {ability}
-                      </div>
-                    ))}
+                  <div className="space-y-8">
+                    <div className="relative pl-6 border-l border-white/5">
+                      <div className="absolute left-0 top-1 w-2 h-2 rounded-full bg-accent -translate-x-[4.5px]" />
+                      <h4 className="font-bold">Vertex Studio Portfolio</h4>
+                      <p className="text-xs text-muted-foreground mb-2">Lead Developer • 2024</p>
+                      <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
+                        <li>Architected a 3D interactive portfolio using Next.js 15 and Three.js.</li>
+                        <li>Integrated GenAI for automated case study drafting.</li>
+                        <li>Implemented dynamic PDF resume generation with client-side rendering.</li>
+                      </ul>
+                    </div>
+
+                    <div className="relative pl-6 border-l border-white/5">
+                      <div className="absolute left-0 top-1 w-2 h-2 rounded-full bg-accent -translate-x-[4.5px]" />
+                      <h4 className="font-bold">Database Management System</h4>
+                      <p className="text-xs text-muted-foreground mb-2">Project Collaborator • 2023</p>
+                      <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
+                        <li>Designed a relational database for university resources using MySQL.</li>
+                        <li>Built a Node.js management API with full CRUD operations.</li>
+                        <li>Optimized data retrieval speed by 35% through proper indexing.</li>
+                      </ul>
+                    </div>
                   </div>
                 </section>
 
                 <section>
-                  <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6">Summary</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Dedicated CSE student at MSU with a deep passion for building scalable web applications. Expert in modern JavaScript frameworks and systems-level programming with C/C++. Committed to writing clean, maintainable code and exploring the intersection of AI and Web3D.
-                  </p>
+                  <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-accent" /> Key Skills & Abilities
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {strengths.map(ability => (
+                      <div key={ability} className="p-3 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-center hover:border-accent transition-colors">
+                        {ability}
+                      </div>
+                    ))}
+                  </div>
                 </section>
               </div>
             </div>
