@@ -32,7 +32,7 @@ export default function Home() {
       <section className="relative h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
         <ThreeHero />
         
-        <div className="z-10 text-center max-w-5xl pb-12 md:pb-16">
+        <div className="z-10 text-center max-w-5xl pb-8 md:pb-12">
           <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent leading-[0.9]">
             ENGINEERING <br />
             <span className="italic font-light">DIGITAL</span> DEPTH.
