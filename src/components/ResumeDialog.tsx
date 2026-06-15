@@ -71,8 +71,6 @@ export default function ResumeDialog() {
     try {
       const element = resumeRef.current;
       
-      // Standard A4 dimensions in pixels at 96 DPI: ~794px x 1123px
-      // But for better quality we use a higher scale
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
@@ -91,11 +89,9 @@ export default function ResumeDialog() {
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      // Calculate the image dimensions to fit the PDF
       const imgWidth = pdfWidth;
       const imgHeight = (canvas.height * pdfWidth) / canvas.width;
       
-      // Add image to PDF
       pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       pdf.save('Marvaniya_Rusilkumar_Resume.pdf');
     } catch (error) {
@@ -120,7 +116,6 @@ export default function ResumeDialog() {
         </DialogHeader>
 
         <ScrollArea className="h-full max-h-[85vh]">
-          {/* Resume Container optimized for A4 aspect ratio (1:1.41) */}
           <div ref={resumeRef} className="w-full min-h-[1123px] p-10 md:p-16 space-y-12 bg-card text-foreground">
             {/* Header / Contact Information */}
             <header className="flex flex-col md:flex-row justify-between items-start gap-8 border-b border-white/5 pb-12">
@@ -130,10 +125,28 @@ export default function ResumeDialog() {
                 </h1>
                 <p className="text-accent text-xl font-medium tracking-wide">Computer Science Engineer & Full-stack Architect</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8 text-sm text-muted-foreground pt-4">
-                  <span className="flex items-center gap-2 hover:text-white transition-colors"><Mail className="w-4 h-4 text-accent" /> rusilmarvaniya@gmail.com</span>
-                  <span className="flex items-center gap-2 hover:text-white transition-colors"><Phone className="w-4 h-4 text-accent" /> +91 9558415136</span>
-                  <span className="flex items-center gap-2 hover:text-white transition-colors"><MapPin className="w-4 h-4 text-accent" /> Vadodara, Gujarat, India</span>
-                  <span className="flex items-center gap-2 hover:text-white transition-colors"><Github className="w-4 h-4 text-accent" /> github.com/Rushil2377</span>
+                  <a href="mailto:rusilmarvaniya@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Mail className="w-4 h-4 text-accent" /> rusilmarvaniya@gmail.com
+                  </a>
+                  <a href="tel:+919558415136" className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Phone className="w-4 h-4 text-accent" /> +91 9558415136
+                  </a>
+                  <a 
+                    href="https://www.google.com/maps/search/?api=1&query=Vadodara,+Gujarat,+India" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center gap-2 hover:text-white transition-colors"
+                  >
+                    <MapPin className="w-4 h-4 text-accent" /> Vadodara, Gujarat, India
+                  </a>
+                  <a 
+                    href="https://github.com/Rushil2377" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center gap-2 hover:text-white transition-colors"
+                  >
+                    <Github className="w-4 h-4 text-accent" /> github.com/Rushil2377
+                  </a>
                 </div>
               </div>
               <div className="flex gap-4 no-pdf">
@@ -149,7 +162,7 @@ export default function ResumeDialog() {
             </header>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
-              {/* Left Column (Sidebar Info) */}
+              {/* Left Column */}
               <div className="md:col-span-4 space-y-12">
                 <section>
                   <h3 className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground mb-6 flex items-center gap-2">
@@ -203,7 +216,7 @@ export default function ResumeDialog() {
                 </section>
               </div>
 
-              {/* Right Column (Main Content) */}
+              {/* Right Column */}
               <div className="md:col-span-8 space-y-12">
                 <section>
                   <h3 className="text-sm uppercase tracking-[0.2em] font-bold text-muted-foreground mb-8 flex items-center gap-2">
@@ -251,7 +264,7 @@ export default function ResumeDialog() {
                         <h4 className="text-lg font-bold text-foreground">B.E. Computer Science Engineering</h4>
                         <p className="text-sm text-muted-foreground italic">Maharaja Sayajirao University (MSU) of Baroda</p>
                       </div>
-                      <span className="text-sm font-bold text-accent whitespace-nowrap">2024 — Present</span>
+                      <span className="text-sm font-bold text-accent whitespace-nowrap">2021 — Present</span>
                     </div>
                   </div>
                 </section>
@@ -275,7 +288,6 @@ export default function ResumeDialog() {
           </div>
         </ScrollArea>
 
-        {/* Action Footer */}
         <div className="p-6 border-t border-white/5 bg-black/60 backdrop-blur-md flex justify-center no-pdf">
           <Button 
             onClick={handleDownload}
