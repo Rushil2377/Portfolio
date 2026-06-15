@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Github, Plus, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ExternalLink, Github, Plus, Trash2, ChevronLeft, ChevronRight, Upload, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 interface Project {
   id: string;
@@ -26,6 +27,7 @@ interface Project {
   tags: string[];
   span: string;
   githubUrl?: string;
+  customImage?: string; // Base64 string for uploaded images
 }
 
 const DEFAULT_PROJECTS: Project[] = [
@@ -89,7 +91,9 @@ export default function BentoGrid() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const [base64Image, setBase64Image] = useState<string | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     setMounted(true);
@@ -112,6 +116,40 @@ export default function BentoGrid() {
     localStorage.setItem('vertex-projects', JSON.stringify(newProjects));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate type
+    const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!validTypes.includes(file.type)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid file type",
+        description: "Please upload a JPEG or PNG image.",
+      });
+      e.target.value = '';
+      return;
+    }
+
+    // Validate size (2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      toast({
+        variant: "destructive",
+        title: "File too large",
+        description: "Image size must be less than 2MB.",
+      });
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setBase64Image(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleAddProject = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -120,14 +158,20 @@ export default function BentoGrid() {
       id: crypto.randomUUID(),
       title: formData.get('title') as string,
       desc: formData.get('desc') as string,
-      imageHint: (formData.get('imageHint') as string) || 'technology',
+      imageHint: 'custom',
       tags: (formData.get('tags') as string).split(',').map(t => t.trim()).filter(Boolean),
       span: '',
-      githubUrl: 'https://github.com/Rushil2377'
+      githubUrl: 'https://github.com/Rushil2377',
+      customImage: base64Image || undefined
     };
 
     saveProjects([...projects, newProject]);
     setIsDialogOpen(false);
+    setBase64Image(null);
+    toast({
+      title: "Project Added",
+      description: `${newProject.title} has been added to your works.`,
+    });
   };
 
   const deleteProject = (id: string) => {
@@ -174,7 +218,10 @@ export default function BentoGrid() {
             </Button>
           </div>
           
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <Dialog open={isDialogOpen} onOpenChange={(open) => {
+            setIsDialogOpen(open);
+            if (!open) setBase64Image(null);
+          }}>
             <DialogTrigger asChild>
               <Button className="bg-accent hover:bg-accent/80 text-black font-bold rounded-full px-8">
                 <Plus className="w-5 h-5 mr-2" /> Add Project
@@ -202,8 +249,24 @@ export default function BentoGrid() {
                     <Input id="tags" name="tags" placeholder="React, Three.js, AI" className="bg-white/5 border-white/10" required />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="imageHint">Image Theme (e.g. "cyberpunk", "code")</Label>
-                    <Input id="imageHint" name="imageHint" placeholder="minimalist" className="bg-white/5 border-white/10" />
+                    <Label htmlFor="image" className="flex items-center gap-2">
+                      <Upload className="w-4 h-4" /> Project Image (PNG/JPEG, Max 2MB)
+                    </Label>
+                    <div className="relative group">
+                      <Input 
+                        id="image" 
+                        name="image" 
+                        type="file" 
+                        accept="image/png, image/jpeg" 
+                        onChange={handleFileChange}
+                        className="bg-white/5 border-white/10 cursor-pointer file:hidden text-xs h-auto py-2"
+                      />
+                      {base64Image && (
+                        <div className="mt-2 relative h-32 w-full rounded-lg overflow-hidden border border-accent/20">
+                          <Image src={base64Image} alt="Preview" fill className="object-cover" />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <DialogFooter>
@@ -245,11 +308,11 @@ export default function BentoGrid() {
 
               <div className="absolute inset-0 w-full h-full overflow-hidden">
                 <Image 
-                  src={`https://picsum.photos/seed/${project.id}/800/800`}
+                  src={project.customImage || `https://picsum.photos/seed/${project.id}/800/800`}
                   alt={project.title}
                   fill
                   className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                  data-ai-hint={project.imageHint}
+                  unoptimized={!!project.customImage}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-90" />
               </div>
