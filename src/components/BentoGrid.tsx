@@ -32,7 +32,7 @@ const DEFAULT_PROJECTS: Project[] = [
   {
     id: 'p1',
     title: 'Aura AI Assistant',
-    desc: 'Advanced conversational agent built with Genkit and Gemini, featuring real-time speech-to-text and intent recognition.',
+    desc: 'Advanced conversational agent built with Genkit and Gemini, featuring real-time speech-to-text.',
     imageHint: 'artificial intelligence',
     tags: ['Genkit', 'Next.js', 'AI'],
     span: 'md:col-span-2 md:row-span-2',
@@ -41,7 +41,7 @@ const DEFAULT_PROJECTS: Project[] = [
   {
     id: 'p2',
     title: 'Vertex 3D Analytics',
-    desc: 'Interactive data visualization dashboard using Three.js and D3.js for complex spatial data mapping.',
+    desc: 'Interactive data visualization dashboard using Three.js for complex spatial mapping.',
     imageHint: '3d data',
     tags: ['Three.js', 'React', 'D3.js'],
     span: 'md:col-span-1 md:row-span-1',
@@ -50,16 +50,16 @@ const DEFAULT_PROJECTS: Project[] = [
   {
     id: 'p3',
     title: 'SwiftPay Fintech',
-    desc: 'A secure, high-performance payment processing engine with real-time fraud detection and transaction monitoring.',
-    imageHint: 'financial technology',
+    desc: 'Secure payment processing engine with real-time fraud detection and monitoring.',
+    imageHint: 'finance technology',
     tags: ['TypeScript', 'Node.js', 'Redis'],
     span: 'md:col-span-1 md:row-span-1',
     githubUrl: 'https://github.com/Rushil2377'
   },
   {
     id: 'p4',
-    title: 'Nexus CRM Dashboard',
-    desc: 'Enterprise-grade customer relationship management system with automated lead scoring and pipeline analytics.',
+    title: 'Nexus CRM',
+    desc: 'Enterprise CRM system with automated lead scoring and pipeline analytics.',
     imageHint: 'business dashboard',
     tags: ['PostgreSQL', 'Tailwind', 'Next.js'],
     span: 'md:col-span-1 md:row-span-2',
@@ -68,7 +68,7 @@ const DEFAULT_PROJECTS: Project[] = [
   {
     id: 'p5',
     title: 'Lumen CMS',
-    desc: 'A lightning-fast, headless content management system optimized for edge delivery and global scalability.',
+    desc: 'Headless CMS optimized for edge delivery and global scalability.',
     imageHint: 'content management',
     tags: ['GraphQL', 'Next.js', 'Cloudflare'],
     span: 'md:col-span-2 md:row-span-1',
@@ -76,10 +76,64 @@ const DEFAULT_PROJECTS: Project[] = [
   },
   {
     id: 'p6',
-    title: 'Echo Real-time Chat',
-    desc: 'Scalable messaging platform supporting millions of concurrent connections using WebSockets and optimized state sync.',
+    title: 'Echo Chat',
+    desc: 'Scalable messaging platform using WebSockets and optimized state sync.',
     imageHint: 'communication technology',
     tags: ['WebSockets', 'Go', 'React'],
+    span: 'md:col-span-1 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p7',
+    title: 'Quantum Ledger',
+    desc: 'Decentralized blockchain explorer with real-time transaction verification.',
+    imageHint: 'blockchain crypto',
+    tags: ['Solidity', 'Web3.js', 'Ethereum'],
+    span: 'md:col-span-1 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p8',
+    title: 'Orbit Satellite Tracker',
+    desc: 'Visualizing global satellite orbits using real-time NORAD TLE data.',
+    imageHint: 'space satellite',
+    tags: ['Python', 'Three.js', 'GIS'],
+    span: 'md:col-span-2 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p9',
+    title: 'Hydra Cloud Engine',
+    desc: 'Automated infrastructure provisioning and container orchestration platform.',
+    imageHint: 'cloud infrastructure',
+    tags: ['Docker', 'Kubernetes', 'Terraform'],
+    span: 'md:col-span-1 md:row-span-2',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p10',
+    title: 'Titan Security',
+    desc: 'Threat detection system with automated incident response and forensics.',
+    imageHint: 'cyber security',
+    tags: ['Rust', 'Elasticsearch', 'SIEM'],
+    span: 'md:col-span-1 md:row-span-1',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p11',
+    title: 'Visionary AR',
+    desc: 'Augmented reality furniture placement tool for modern interior design.',
+    imageHint: 'augmented reality',
+    tags: ['Swift', 'ARKit', 'Unity'],
+    span: 'md:col-span-2 md:row-span-2',
+    githubUrl: 'https://github.com/Rushil2377'
+  },
+  {
+    id: 'p12',
+    title: 'Pulse IoT Hub',
+    desc: 'Centralized smart home controller for distributed sensor networks.',
+    imageHint: 'smart home',
+    tags: ['MQTT', 'React Native', 'Node.js'],
     span: 'md:col-span-1 md:row-span-1',
     githubUrl: 'https://github.com/Rushil2377'
   }
@@ -98,7 +152,6 @@ export default function BentoGrid() {
         const parsed = JSON.parse(savedProjects);
         setProjects(parsed.length > 0 ? parsed : DEFAULT_PROJECTS);
       } catch (e) {
-        console.error('Failed to parse projects', e);
         setProjects(DEFAULT_PROJECTS);
       }
     } else {
