@@ -31,14 +31,6 @@ export default function Home() {
         <ThreeHero />
         
         <div className="z-10 text-center max-w-5xl">
-          <div className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-bold uppercase tracking-widest animate-pulse">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-            </span>
-            Available for new projects
-          </div>
-          
           <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent leading-[0.9]">
             ENGINEERING <br />
             <span className="italic font-light">DIGITAL</span> DEPTH.
