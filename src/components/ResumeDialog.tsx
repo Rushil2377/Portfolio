@@ -125,8 +125,8 @@ export default function ResumeDialog() {
                 </h1>
                 <p className="text-accent text-xl font-medium tracking-wide">Computer Science Engineer & Full-stack Architect</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8 text-sm text-muted-foreground pt-4">
-                  <a href="mailto:rusilmarvaniya@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors">
-                    <Mail className="w-4 h-4 text-accent" /> rusilmarvaniya@gmail.com
+                  <a href="mailto:rushilmarvaniya@gmail.com" className="flex items-center gap-2 hover:text-white transition-colors">
+                    <Mail className="w-4 h-4 text-accent" /> rushilmarvaniya@gmail.com
                   </a>
                   <a href="tel:+919558415136" className="flex items-center gap-2 hover:text-white transition-colors">
                     <Phone className="w-4 h-4 text-accent" /> +91 9558415136
@@ -264,7 +264,7 @@ export default function ResumeDialog() {
                         <h4 className="text-lg font-bold text-foreground">B.E. Computer Science Engineering</h4>
                         <p className="text-sm text-muted-foreground italic">Maharaja Sayajirao University (MSU) of Baroda</p>
                       </div>
-                      <span className="text-sm font-bold text-accent whitespace-nowrap">2021 — Present</span>
+                      <span className="text-sm font-bold text-accent whitespace-nowrap">2024 — Present</span>
                     </div>
                   </div>
                 </section>

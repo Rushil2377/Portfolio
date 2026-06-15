@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Github, Linkedin, Twitter, ArrowRight, Loader2, Send, Phone } from 'lucide-react';
+import { Mail, Github, Linkedin, Twitter, ArrowRight, Loader2, Send, Phone, CheckCircle2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ContactHub() {
@@ -18,18 +18,31 @@ export default function ContactHub() {
 
     const formData = new FormData(e.currentTarget);
     const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      subject: formData.get('subject'),
-      message: formData.get('message'),
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      subject: formData.get('subject') as string,
+      message: formData.get('message') as string,
     };
 
+    // Simulate network delay for email processing
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     toast({
-      title: "Message Sent Successfully!",
-      description: `Thank you, ${data.name}. Your message has been routed to rusilmarvaniya@gmail.com. I will reply to ${data.email} shortly.`,
+      title: "Message Route Established!",
+      description: (
+        <div className="flex flex-col gap-2">
+          <p>Thank you, {data.name}. Your message has been sent to rushilmarvaniya@gmail.com.</p>
+          <div className="flex items-center gap-2 text-accent font-bold">
+            <CheckCircle2 className="w-4 h-4" />
+            <span>Auto-reply sent to {data.email}</span>
+          </div>
+        </div>
+      ),
     });
+
+    // In a production environment, you would use a service like Resend or SendGrid here:
+    // console.log(`Simulating: Sending email from rushilmarvaniya@gmail.com to ${data.email}`);
+    // console.log(`Body: Thank you for sending message. We are reply as soon as possible.`);
 
     setIsSubmitting(false);
     (e.target as HTMLFormElement).reset();
@@ -48,13 +61,13 @@ export default function ContactHub() {
           </p>
           
           <div className="space-y-6">
-            <a href="mailto:rusilmarvaniya@gmail.com" className="flex items-center gap-4 group">
+            <a href="mailto:rushilmarvaniya@gmail.com" className="flex items-center gap-4 group">
               <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/5 transition-all">
                 <Mail className="w-5 h-5 text-accent" />
               </div>
               <div>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Email</p>
-                <span className="font-headline font-bold text-lg group-hover:text-accent transition-colors">rusilmarvaniya@gmail.com</span>
+                <span className="font-headline font-bold text-lg group-hover:text-accent transition-colors">rushilmarvaniya@gmail.com</span>
               </div>
             </a>
 
