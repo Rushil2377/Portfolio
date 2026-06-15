@@ -40,15 +40,15 @@ export default function Home() {
             I am <span className="text-white font-bold">Marvaniya Rusilkumar P.</span>, a CSE Engineer specializing in high-performance web experiences and technical architecture.
           </p>
           
-          <div className="flex flex-col md:flex-row gap-6 justify-center">
+          <div className="flex flex-col md:flex-row gap-4 justify-center">
             <a href="#projects">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-bold h-16 px-12 text-lg group rounded-full w-full md:w-auto">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-bold h-14 px-8 text-base group rounded-full w-full md:w-auto">
                 Explore Projects
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>
             <a href="#ai-tool">
-              <Button size="lg" variant="outline" className="border-white/10 bg-white/5 backdrop-blur-md text-white font-bold h-16 px-12 text-lg rounded-full hover:bg-white/10 transition-colors w-full md:w-auto">
+              <Button size="lg" variant="outline" className="border-white/10 bg-white/5 backdrop-blur-md text-white font-bold h-14 px-8 text-base rounded-full hover:bg-white/10 transition-colors w-full md:w-auto">
                 The AI Lab
               </Button>
             </a>
