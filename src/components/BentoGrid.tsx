@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Github, Plus, Trash2, ChevronLeft, ChevronRight, Upload, AlertCircle } from 'lucide-react';
+import { ExternalLink, Plus, Trash2, ChevronLeft, ChevronRight, Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,7 +26,7 @@ interface Project {
   imageHint: string;
   tags: string[];
   span: string;
-  githubUrl?: string;
+  previewUrl?: string;
   customImage?: string; // Base64 string for uploaded images
 }
 
@@ -38,7 +38,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'artificial intelligence',
     tags: ['Genkit', 'Next.js', 'AI'],
     span: '',
-    githubUrl: 'https://github.com/Rushil2377'
+    previewUrl: '#'
   },
   {
     id: 'p2',
@@ -47,7 +47,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: '3d data',
     tags: ['Three.js', 'React', 'D3.js'],
     span: '',
-    githubUrl: 'https://github.com/Rushil2377'
+    previewUrl: '#'
   },
   {
     id: 'p3',
@@ -56,7 +56,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'finance technology',
     tags: ['TypeScript', 'Node.js', 'Redis'],
     span: '',
-    githubUrl: 'https://github.com/Rushil2377'
+    previewUrl: '#'
   },
   {
     id: 'p4',
@@ -65,7 +65,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'business dashboard',
     tags: ['PostgreSQL', 'Tailwind', 'Next.js'],
     span: '',
-    githubUrl: 'https://github.com/Rushil2377'
+    previewUrl: '#'
   },
   {
     id: 'p5',
@@ -74,7 +74,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'content management',
     tags: ['GraphQL', 'Next.js', 'Cloudflare'],
     span: '',
-    githubUrl: 'https://github.com/Rushil2377'
+    previewUrl: '#'
   },
   {
     id: 'p6',
@@ -83,7 +83,7 @@ const DEFAULT_PROJECTS: Project[] = [
     imageHint: 'communication technology',
     tags: ['WebSockets', 'Go', 'React'],
     span: '',
-    githubUrl: 'https://github.com/Rushil2377'
+    previewUrl: '#'
   }
 ];
 
@@ -120,7 +120,6 @@ export default function BentoGrid() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate type
     const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (!validTypes.includes(file.type)) {
       toast({
@@ -132,7 +131,6 @@ export default function BentoGrid() {
       return;
     }
 
-    // Validate size (2MB)
     if (file.size > 2 * 1024 * 1024) {
       toast({
         variant: "destructive",
@@ -161,7 +159,7 @@ export default function BentoGrid() {
       imageHint: 'custom',
       tags: (formData.get('tags') as string).split(',').map(t => t.trim()).filter(Boolean),
       span: '',
-      githubUrl: 'https://github.com/Rushil2377',
+      previewUrl: formData.get('previewUrl') as string || '#',
       customImage: base64Image || undefined
     };
 
@@ -249,6 +247,10 @@ export default function BentoGrid() {
                     <Input id="tags" name="tags" placeholder="React, Three.js, AI" className="bg-white/5 border-white/10" required />
                   </div>
                   <div className="grid gap-2">
+                    <Label htmlFor="previewUrl">Live Preview URL</Label>
+                    <Input id="previewUrl" name="previewUrl" placeholder="https://example.com" className="bg-white/5 border-white/10" />
+                  </div>
+                  <div className="grid gap-2">
                     <Label htmlFor="image" className="flex items-center gap-2">
                       <Upload className="w-4 h-4" /> Project Image (PNG/JPEG, Max 2MB)
                     </Label>
@@ -332,18 +334,14 @@ export default function BentoGrid() {
                   {project.desc}
                 </p>
                 <div className="flex gap-6 items-center">
-                  <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors group/btn">
-                    <ExternalLink className="w-4 h-4 group-hover/btn:scale-110 transition-transform" /> 
-                    <span>Live Preview</span>
-                  </button>
                   <a 
-                    href={project.githubUrl || "https://github.com/Rushil2377"} 
+                    href={project.previewUrl || "#"} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors group/btn"
                   >
-                    <Github className="w-4 h-4 group-hover/btn:scale-110 transition-transform" /> 
-                    <span>View Code</span>
+                    <ExternalLink className="w-4 h-4 group-hover/btn:scale-110 transition-transform" /> 
+                    <span>Live Preview</span>
                   </a>
                 </div>
               </div>
