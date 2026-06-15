@@ -23,14 +23,16 @@ export default function Home() {
           <a href="#ai-tool" className="hover:text-accent transition-colors">AI Lab</a>
           <a href="#contact" className="hover:text-accent transition-colors">Contact</a>
         </div>
-        <ResumeDialog />
+        <div className="flex items-center gap-4">
+          <ResumeDialog />
+        </div>
       </nav>
 
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col justify-center items-center px-6 overflow-hidden">
         <ThreeHero />
         
-        <div className="z-10 text-center max-w-5xl">
+        <div className="z-10 text-center max-w-5xl pb-24 md:pb-32">
           <h1 className="font-headline text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent leading-[0.9]">
             ENGINEERING <br />
             <span className="italic font-light">DIGITAL</span> DEPTH.
@@ -56,7 +58,7 @@ export default function Home() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-40">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-40">
           <div className="w-[1px] h-16 bg-gradient-to-b from-white to-transparent" />
           <span className="text-[10px] uppercase tracking-widest font-bold">Scroll to navigate</span>
         </div>
