@@ -44,6 +44,21 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Intelligent scrollbar: invisible by default, visible on interaction */
+  .subtle-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .subtle-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .subtle-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-transparent rounded-full;
+  }
+  .subtle-scrollbar:hover::-webkit-scrollbar-thumb,
+  .subtle-scrollbar:active::-webkit-scrollbar-thumb {
+    @apply bg-accent/30;
+  }
 }
 
 .neon-glow {

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -108,7 +107,7 @@ export default function CaseStudyTool() {
                     {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                   </Button>
                 </CardHeader>
-                <CardContent className="flex-grow overflow-auto">
+                <CardContent className="flex-grow overflow-auto subtle-scrollbar">
                   <div className="prose prose-invert prose-sm">
                     <p className="whitespace-pre-wrap text-sm text-foreground/90 font-body leading-relaxed">
                       {result}
