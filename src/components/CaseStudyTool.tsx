@@ -55,21 +55,21 @@ export default function CaseStudyTool() {
           <p className="text-muted-foreground">Transform raw technical notes into professional, recruiter-ready case studies.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <Card className="border-white/10 bg-black/40 backdrop-blur-md">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+          <Card className="border-white/10 bg-black/40 backdrop-blur-md flex flex-col h-full">
             <CardHeader>
               <CardTitle className="text-xl">Project Details</CardTitle>
               <CardDescription>Input your project parameters</CardDescription>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <CardContent className="flex-grow">
+              <form onSubmit={handleSubmit} className="space-y-6 flex flex-col h-full">
                 <div className="space-y-2">
                   <Label htmlFor="description">Project Description</Label>
                   <Textarea 
                     id="description" 
                     name="description" 
                     placeholder="E.g., Built a microservices architecture using Go and Kafka to handle 10k req/s..." 
-                    className="min-h-[150px] bg-white/5 border-white/10"
+                    className="min-h-[150px] md:flex-grow bg-white/5 border-white/10"
                     required
                   />
                 </div>
@@ -83,7 +83,7 @@ export default function CaseStudyTool() {
                     <Input id="tone" name="tone" placeholder="Innovative & Detailed" className="bg-white/5 border-white/10" required />
                   </div>
                 </div>
-                <Button type="submit" className="w-full bg-accent hover:bg-accent/80 text-black font-bold" disabled={loading}>
+                <Button type="submit" className="w-full bg-accent hover:bg-accent/80 text-black font-bold h-12" disabled={loading}>
                   {loading ? (
                     <span className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 animate-spin" /> Drafting...
@@ -98,7 +98,7 @@ export default function CaseStudyTool() {
             </CardContent>
           </Card>
 
-          <div className="relative h-full min-h-[400px]">
+          <div className="relative">
             {result ? (
               <Card className="h-full border-accent/20 bg-accent/[0.02] overflow-hidden flex flex-col">
                 <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -107,16 +107,16 @@ export default function CaseStudyTool() {
                     {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                   </Button>
                 </CardHeader>
-                <CardContent className="flex-grow overflow-auto subtle-scrollbar">
+                <CardContent className="flex-1 overflow-y-auto subtle-scrollbar min-h-0">
                   <div className="prose prose-invert prose-sm">
-                    <p className="whitespace-pre-wrap text-sm text-foreground/90 font-body leading-relaxed">
+                    <p className="whitespace-pre-wrap text-sm text-foreground/90 font-body leading-relaxed pb-6">
                       {result}
                     </p>
                   </div>
                 </CardContent>
               </Card>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-2xl opacity-40">
+              <div className="h-full min-h-[400px] flex flex-col items-center justify-center border-2 border-dashed border-white/5 rounded-2xl opacity-40">
                 <Sparkles className="w-12 h-12 mb-4 text-accent/50" />
                 <p className="text-sm">Enter project details to generate your first draft</p>
               </div>
