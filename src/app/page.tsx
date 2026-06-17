@@ -1,7 +1,6 @@
 import ThreeHero from '@/components/ThreeHero';
 import TechStack from '@/components/TechStack';
 import BentoGrid from '@/components/BentoGrid';
-import CaseStudyTool from '@/components/CaseStudyTool';
 import ContactHub from '@/components/ContactHub';
 import ResumeDialog from '@/components/ResumeDialog';
 import { Toaster } from '@/components/ui/toaster';
@@ -20,7 +19,6 @@ export default function Home() {
         </div>
         <div className="hidden md:flex gap-12 text-xs uppercase tracking-[0.3em] font-bold text-white/70">
           <a href="#projects" className="hover:text-accent transition-colors">Projects</a>
-          <a href="#ai-tool" className="hover:text-accent transition-colors">AI Lab</a>
           <a href="#contact" className="hover:text-accent transition-colors">Contact</a>
         </div>
         <div className="flex items-center gap-4">
@@ -49,11 +47,6 @@ export default function Home() {
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>
-            <a href="#ai-tool">
-              <Button size="lg" variant="outline" className="border-white/10 bg-white/5 backdrop-blur-md text-white font-bold h-14 px-8 text-base rounded-full hover:bg-white/10 transition-colors w-full md:w-auto">
-                The AI Lab
-              </Button>
-            </a>
           </div>
         </div>
 
@@ -68,7 +61,6 @@ export default function Home() {
       <div className="relative z-10 space-y-32 bg-background">
         <TechStack />
         <BentoGrid />
-        <CaseStudyTool />
         <ContactHub />
       </div>
 
