@@ -14,7 +14,7 @@ export async function sendContactEmail(formData: { name: string, email: string, 
   });
 
   try {
-    // 1. Send "Thank You" email to the user
+    // 1. Send "Thank You" email to the user (Auto-responder)
     await transporter.sendMail({
       from: '"Marvaniya Rusilkumar | Vertex Studio" <rushilmarvaniya@gmail.com>',
       to: formData.email,
@@ -25,12 +25,12 @@ export async function sendContactEmail(formData: { name: string, email: string, 
           <h2 style="color: #4DE0FF;">Vertex Studio</h2>
           <p>Hi <strong>${formData.name}</strong>,</p>
           <p>Thank you for reaching out! This is an automated confirmation that your message has been successfully received.</p>
-          <p style="background: #f9f9f9; padding: 15px; border-left: 4px solid #4DE0FF;">
-            <em>"Thank you for sending message. We are reply as soon as possible."</em>
+          <p style="background: #f9f9f9; padding: 15px; border-left: 4px solid #4DE0FF; font-style: italic;">
+            "Thank you for sending message. We are reply as soon as possible."
           </p>
-          <p>I will review your message and get back to you shortly.</p>
+          <p>I have received your details regarding <strong>${formData.subject}</strong> and will get back to you shortly.</p>
           <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-          <p style="font-size: 12px; color: #888;">Marvaniya Rusilkumar P.<br/>CSE Engineer & Technical Architect</p>
+          <p style="font-size: 12px; color: #888;">Marvaniya Rusilkumar P.<br/>Computer Science Engineer & Technical Architect</p>
         </div>
       `,
     });

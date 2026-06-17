@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Github, Linkedin, Twitter, ArrowRight, Loader2, Send, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Github, Linkedin, ArrowRight, Loader2, Send, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { sendContactEmail } from '@/app/actions/send-email';
 
@@ -85,6 +85,7 @@ export default function ContactHub() {
               </div>
             </a>
 
+            <div className="flex items-center gap-4 group">
               <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/5 transition-all">
                 <Phone className="w-5 h-5 text-accent" />
               </div>
@@ -92,6 +93,7 @@ export default function ContactHub() {
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Phone</p>
                 <span className="font-headline font-bold text-lg group-hover:text-accent transition-colors">+91 9558415136</span>
               </div>
+            </div>
             
             <div className="flex gap-4 pt-6">
               {[
