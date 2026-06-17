@@ -227,7 +227,7 @@ export default function ResumeDialog() {
                       <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-accent -translate-x-[7.5px] border-2 border-card shadow-[0_0_10px_rgba(77,224,255,0.4)]" />
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="text-lg font-bold text-foreground">Vertex Studio Portfolio</h4>
-                        <span className="text-xs text-accent font-medium">2024</span>
+                        <span className="text-xs text-accent font-medium">2026</span>
                       </div>
                       <p className="text-xs text-muted-foreground font-medium mb-3 uppercase tracking-wider">Lead Developer</p>
                       <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside marker:text-accent">
@@ -241,7 +241,7 @@ export default function ResumeDialog() {
                       <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-white/20 -translate-x-[7.5px] border-2 border-card" />
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="text-lg font-bold text-foreground">Database Management System</h4>
-                        <span className="text-xs text-muted-foreground">2023</span>
+                        <span className="text-xs text-muted-foreground">2025</span>
                       </div>
                       <p className="text-xs text-muted-foreground font-medium mb-3 uppercase tracking-wider">Core Contributor</p>
                       <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside marker:text-accent/40">

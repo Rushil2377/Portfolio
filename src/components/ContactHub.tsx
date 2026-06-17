@@ -85,7 +85,6 @@ export default function ContactHub() {
               </div>
             </a>
 
-            <a href="tel:+919558415136" className="flex items-center gap-4 group">
               <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent group-hover:bg-accent/5 transition-all">
                 <Phone className="w-5 h-5 text-accent" />
               </div>
@@ -93,13 +92,11 @@ export default function ContactHub() {
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">Phone</p>
                 <span className="font-headline font-bold text-lg group-hover:text-accent transition-colors">+91 9558415136</span>
               </div>
-            </a>
             
             <div className="flex gap-4 pt-6">
               {[
                 { icon: Github, href: "https://github.com/Rushil2377" },
                 { icon: Linkedin, href: "https://github.com/Rushil2377" },
-                { icon: Twitter, href: "https://github.com/Rushil2377" }
               ].map((social, i) => (
                 <a 
                   key={i} 

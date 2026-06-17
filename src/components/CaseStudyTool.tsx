@@ -107,8 +107,8 @@ export default function CaseStudyTool() {
                     {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                   </Button>
                 </CardHeader>
-                <CardContent className="flex-1 overflow-y-auto subtle-scrollbar min-h-0">
-                  <div className="prose prose-invert prose-sm">
+                <CardContent className="flex-1  overflow-y-auto subtle-scrollbar min-h-0">
+                  <div className="prose prose-invert prose-sm overflow-y-auto h-64">
                     <p className="whitespace-pre-wrap text-sm text-foreground/90 font-body leading-relaxed pb-6">
                       {result}
                     </p>

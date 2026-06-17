@@ -7,9 +7,9 @@ import { Cpu, Globe, Database, Layers, Code, Zap } from 'lucide-react';
 const skills = [
   { name: 'TypeScript', icon: Code, level: 'Expert' },
   { name: 'React/Next.js', icon: Zap, level: 'Advanced' },
-  { name: 'Three.js', icon: Cpu, level: 'Specialist' },
+  { name: 'Three.js', icon: Cpu, level: 'learner' },
   { name: 'Node.js', icon: Globe, level: 'Backend' },
-  { name: 'PostgreSQL', icon: Database, level: 'Data' },
+  { name: 'MySQL', icon: Database, level: 'Data' },
   { name: 'Cloud Infra', icon: Layers, level: 'DevOps' },
 ];
 

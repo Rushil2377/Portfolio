@@ -263,13 +263,13 @@ export default function BentoGrid() {
     saveProjects(projects.filter(p => p.id !== id));
   };
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, clientWidth } = scrollContainerRef.current;
-      const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
-      scrollContainerRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
-    }
-  };
+  // const scroll = (direction: 'left' | 'right') => {
+  //   if (scrollContainerRef.current) {
+  //     const { scrollLeft, clientWidth } = scrollContainerRef.current;
+  //     const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+  //     scrollContainerRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+  //   }
+  // };
 
   if (!mounted) return null;
 
@@ -285,7 +285,7 @@ export default function BentoGrid() {
 
         <div className="flex gap-4">
           <div className="hidden md:flex gap-2 mr-4">
-            <Button 
+            {/* <Button 
               variant="outline" 
               size="icon" 
               className="rounded-full border-white/10 hover:bg-white/5"
@@ -304,7 +304,7 @@ export default function BentoGrid() {
               onMouseLeave={() => setIsPaused(false)}
             >
               <ChevronRight className="w-5 h-5" />
-            </Button>
+            </Button> */}
           </div>
           
           <Dialog open={isDialogOpen} onOpenChange={(open) => {
