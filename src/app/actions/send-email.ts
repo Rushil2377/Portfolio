@@ -2,9 +2,21 @@
 'use server';
 
 import nodemailer from 'nodemailer';
+import { getAuthenticatedUser } from '@/lib/auth-helper';
 
 export async function sendContactEmail(formData: { name: string, email: string, subject: string, message: string }) {
-  // Use the App Password provided by the user
+  const user = await getAuthenticatedUser();
+  if (!user) {
+    return { success: false, error: 'You must be logged in to send a message' };
+  }
+
+  if (user.role === 'admin') {
+    return { success: false, error: 'Admins cannot send contact messages' };
+  }
+
+  // Enforce email from the authenticated database session
+  formData.email = user.email;
+
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {

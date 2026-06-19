@@ -3,6 +3,8 @@ import TechStack from '@/components/TechStack';
 import BentoGrid from '@/components/BentoGrid';
 import ContactHub from '@/components/ContactHub';
 import ResumeDialog from '@/components/ResumeDialog';
+import LoginDialog from '@/components/LoginDialog';
+import SiteNavLinks from '@/components/SiteNavLinks';
 import { Toaster } from '@/components/ui/toaster';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -17,11 +19,9 @@ export default function Home() {
         <div className="font-headline font-bold text-2xl tracking-tighter text-white">
           VERTEX<span className="text-accent">.</span>
         </div>
-        <div className="hidden md:flex gap-12 text-xs uppercase tracking-[0.3em] font-bold text-white/70">
-          <a href="#projects" className="hover:text-accent transition-colors">Projects</a>
-          <a href="#contact" className="hover:text-accent transition-colors">Contact</a>
-        </div>
+        <SiteNavLinks />
         <div className="flex items-center gap-4">
+          <LoginDialog />
           <ResumeDialog />
         </div>
       </nav>

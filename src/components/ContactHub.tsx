@@ -6,16 +6,33 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, Github, Linkedin, ArrowRight, Loader2, Send, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Github, Linkedin, ArrowRight, Loader2, Send, Phone, CheckCircle2, AlertCircle, LogIn, UserPlus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { sendContactEmail } from '@/app/actions/send-email';
+import { useAuth } from '@/context/AuthContext';
 
 export default function ContactHub() {
   const { toast } = useToast();
+  const { user, loading, isAdmin, openAuthDialog } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (!loading && isAdmin) {
+    return null;
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!user) {
+      toast({
+        variant: 'destructive',
+        title: 'Login Required',
+        description: 'Please log in or sign up before sending a message.',
+      });
+      openAuthDialog('login');
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
@@ -44,7 +61,7 @@ export default function ContactHub() {
         });
         (e.target as HTMLFormElement).reset();
       } else {
-        throw new Error(result.error);
+        throw new Error(result.error || 'Failed to send message');
       }
     } catch (error) {
       toast({
@@ -53,7 +70,7 @@ export default function ContactHub() {
         description: (
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4" />
-            <span>Could not send email. Please try again later.</span>
+            <span>{error instanceof Error ? error.message : 'Could not send email. Please try again later.'}</span>
           </div>
         ),
       });
@@ -121,6 +138,41 @@ export default function ContactHub() {
               <Send className="w-5 h-5 text-accent" />
               Send a Message
             </h3>
+
+            {loading ? (
+              <div className="flex items-center justify-center py-16">
+                <Loader2 className="w-8 h-8 animate-spin text-accent" />
+              </div>
+            ) : !user ? (
+              <div className="text-center py-12 px-4 space-y-6">
+                <div className="w-16 h-16 mx-auto rounded-full border border-white/10 flex items-center justify-center bg-white/5">
+                  <LogIn className="w-7 h-7 text-accent" />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-lg font-bold text-white">Login required</p>
+                  <p className="text-muted-foreground text-sm max-w-sm mx-auto">
+                    You need to log in or create an account before you can send a message.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button
+                    onClick={() => openAuthDialog('login')}
+                    className="bg-accent hover:bg-accent/80 text-black font-bold rounded-xl h-12 px-8"
+                  >
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Log In
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => openAuthDialog('register')}
+                    className="border-white/10 hover:bg-white/5 text-white rounded-xl h-12 px-8"
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Sign Up
+                  </Button>
+                </div>
+              </div>
+            ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -129,7 +181,15 @@ export default function ContactHub() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">Your Email</Label>
-                  <Input id="email" name="email" type="email" placeholder="john@example.com" className="bg-transparent border-white/10 focus:border-accent transition-colors h-12" required />
+                  <Input 
+                    id="email" 
+                    name="email" 
+                    type="email" 
+                    value={user.email} 
+                    readOnly 
+                    className="bg-white/5 border-white/10 text-muted-foreground h-12 cursor-not-allowed" 
+                    required 
+                  />
                 </div>
               </div>
               <div className="space-y-2">
@@ -155,6 +215,7 @@ export default function ContactHub() {
                 )}
               </Button>
             </form>
+            )}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Plus, Trash2, ChevronLeft, ChevronRight, Upload } from 'lucide-react';
+import { ExternalLink, Plus, Trash2, Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
 
 interface Project {
   id: string;
@@ -27,119 +28,8 @@ interface Project {
   tags: string[];
   span: string;
   previewUrl?: string;
-  customImage?: string; // Base64 string for uploaded images
+  customImage?: string;
 }
-
-const DEFAULT_PROJECTS: Project[] = [
-  {
-    id: 'p1',
-    title: 'Aura AI Assistant',
-    desc: 'Advanced conversational agent built with Genkit and Gemini, featuring real-time speech-to-text.',
-    imageHint: 'artificial intelligence',
-    tags: ['Genkit', 'Next.js', 'AI'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p2',
-    title: 'Vertex 3D Analytics',
-    desc: 'Interactive data visualization dashboard using Three.js for complex spatial mapping.',
-    imageHint: '3d data',
-    tags: ['Three.js', 'React', 'D3.js'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p3',
-    title: 'SwiftPay Fintech',
-    desc: 'Secure payment processing engine with real-time fraud detection and monitoring.',
-    imageHint: 'finance technology',
-    tags: ['TypeScript', 'Node.js', 'Redis'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p4',
-    title: 'Nexus CRM',
-    desc: 'Enterprise CRM system with automated lead scoring and pipeline analytics.',
-    imageHint: 'business dashboard',
-    tags: ['PostgreSQL', 'Tailwind', 'Next.js'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p5',
-    title: 'Lumen CMS',
-    desc: 'Headless CMS optimized for edge delivery and global scalability.',
-    imageHint: 'content management',
-    tags: ['GraphQL', 'Next.js', 'Cloudflare'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p6',
-    title: 'Echo Chat',
-    desc: 'Scalable messaging platform using WebSockets and optimized state sync.',
-    imageHint: 'communication technology',
-    tags: ['WebSockets', 'Go', 'React'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p7',
-    title: 'Titan Blockchain',
-    desc: 'Decentralized identity protocol for secure enterprise asset management.',
-    imageHint: 'blockchain technology',
-    tags: ['Solidity', 'Web3.js', 'Ethereum'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p8',
-    title: 'Orbital Tracker',
-    desc: 'Real-time satellite tracking and debris mapping system for space agencies.',
-    imageHint: 'satellite space',
-    tags: ['Python', 'WebGL', 'AWS'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p9',
-    title: 'Holos AR Mesh',
-    desc: 'Mobile AR application for real-time interior design and spatial 3D mapping.',
-    imageHint: 'augmented reality',
-    tags: ['Unity', 'ARCore', 'C#'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p10',
-    title: 'Pulse IoT Grid',
-    desc: 'Industrial IoT monitoring system with predictive maintenance algorithms.',
-    imageHint: 'industrial internet',
-    tags: ['MQTT', 'InfluxDB', 'React'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p11',
-    title: 'Glacier Search',
-    desc: 'High-performance vector database search engine for unstructured medical data.',
-    imageHint: 'vector database',
-    tags: ['Rust', 'Vector DB', 'gRPC'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  },
-  {
-    id: 'p12',
-    title: 'Cipher Vault',
-    desc: 'Quantum-resistant encryption layer for distributed cloud storage architectures.',
-    imageHint: 'cyber security',
-    tags: ['Cryptography', 'C++', 'Azure'],
-    span: '',
-    previewUrl: 'https://github.com/Rushil2377'
-  }
-];
 
 export default function BentoGrid() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -150,21 +40,24 @@ export default function BentoGrid() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const autoScrollRef = useRef<number | null>(null);
   const { toast } = useToast();
+  const { isAdmin } = useAuth();
+
+  // Fetch projects from database
+  const fetchProjects = async () => {
+    try {
+      const res = await fetch('/api/projects');
+      if (res.ok) {
+        const data = await res.json();
+        setProjects(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch projects:', err);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
-    const savedProjects = localStorage.getItem('vertex-projects');
-    if (savedProjects) {
-      try {
-        const parsed = JSON.parse(savedProjects);
-        setProjects(parsed.length > 0 ? parsed : DEFAULT_PROJECTS);
-      } catch (e) {
-        setProjects(DEFAULT_PROJECTS);
-      }
-    } else {
-      setProjects(DEFAULT_PROJECTS);
-      localStorage.setItem('vertex-projects', JSON.stringify(DEFAULT_PROJECTS));
-    }
+    fetchProjects();
   }, []);
 
   // Auto-scrolling logic
@@ -198,11 +91,6 @@ export default function BentoGrid() {
     };
   }, [mounted, projects, isPaused]);
 
-  const saveProjects = (newProjects: Project[]) => {
-    setProjects(newProjects);
-    localStorage.setItem('vertex-projects', JSON.stringify(newProjects));
-  };
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -235,41 +123,80 @@ export default function BentoGrid() {
     reader.readAsDataURL(file);
   };
 
-  const handleAddProject = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddProject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
-    const newProject: Project = {
-      id: crypto.randomUUID(),
+    const projectData = {
       title: formData.get('title') as string,
       desc: formData.get('desc') as string,
       imageHint: 'custom',
       tags: (formData.get('tags') as string).split(',').map(t => t.trim()).filter(Boolean),
-      span: '',
       previewUrl: formData.get('previewUrl') as string || 'https://github.com/Rushil2377',
       customImage: base64Image || undefined
     };
 
-    saveProjects([...projects, newProject]);
-    setIsDialogOpen(false);
-    setBase64Image(null);
-    toast({
-      title: "Project Added",
-      description: `${newProject.title} has been added to your works.`,
-    });
+    try {
+      const res = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projectData),
+      });
+
+      if (res.ok) {
+        const newProject = await res.json();
+        setProjects(prev => [newProject, ...prev]);
+        setIsDialogOpen(false);
+        setBase64Image(null);
+        toast({
+          title: "Project Added",
+          description: `${newProject.title} has been added to your works.`,
+        });
+      } else {
+        const err = await res.json();
+        toast({
+          variant: "destructive",
+          title: "Failed to Add Project",
+          description: err.error || "Something went wrong.",
+        });
+      }
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to connect to the server.",
+      });
+    }
   };
 
-  const deleteProject = (id: string) => {
-    saveProjects(projects.filter(p => p.id !== id));
-  };
+  const deleteProject = async (id: string) => {
+    try {
+      const res = await fetch(`/api/projects/${id}`, {
+        method: 'DELETE',
+      });
 
-  // const scroll = (direction: 'left' | 'right') => {
-  //   if (scrollContainerRef.current) {
-  //     const { scrollLeft, clientWidth } = scrollContainerRef.current;
-  //     const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
-  //     scrollContainerRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
-  //   }
-  // };
+      if (res.ok) {
+        setProjects(prev => prev.filter(p => p.id !== id));
+        toast({
+          title: "Project Deleted",
+          description: "Project was successfully removed from your portfolio.",
+        });
+      } else {
+        const err = await res.json();
+        toast({
+          variant: "destructive",
+          title: "Failed to Delete",
+          description: err.error || "Unauthorized.",
+        });
+      }
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to connect to the server.",
+      });
+    }
+  };
 
   if (!mounted) return null;
 
@@ -284,90 +211,69 @@ export default function BentoGrid() {
         </div>
 
         <div className="flex gap-4">
-          <div className="hidden md:flex gap-2 mr-4">
-            {/* <Button 
-              variant="outline" 
-              size="icon" 
-              className="rounded-full border-white/10 hover:bg-white/5"
-              onClick={() => scroll('left')}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="rounded-full border-white/10 hover:bg-white/5"
-              onClick={() => scroll('right')}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
-              <ChevronRight className="w-5 h-5" />
-            </Button> */}
-          </div>
-          
-          <Dialog open={isDialogOpen} onOpenChange={(open) => {
-            setIsDialogOpen(open);
-            if (!open) setBase64Image(null);
-          }}>
-            <DialogTrigger asChild>
-              <Button className="bg-accent hover:bg-accent/80 text-black font-bold rounded-full px-8">
-                <Plus className="w-5 h-5 mr-2" /> Add Project
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-card border-white/10 text-foreground sm:max-w-[425px]">
-              <form onSubmit={handleAddProject}>
-                <DialogHeader>
-                  <DialogTitle>Add New Project</DialogTitle>
-                  <DialogDescription className="text-muted-foreground">
-                    Create a new entry for your portfolio.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="title">Title</Label>
-                    <Input id="title" name="title" placeholder="Project Name" className="bg-white/5 border-white/10" required />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="desc">Description</Label>
-                    <Textarea id="desc" name="desc" placeholder="Brief overview..." className="bg-white/5 border-white/10" required />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="tags">Tags (comma separated)</Label>
-                    <Input id="tags" name="tags" placeholder="React, Three.js, AI" className="bg-white/5 border-white/10" required />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="previewUrl">Live Preview URL</Label>
-                    <Input id="previewUrl" name="previewUrl" placeholder="https://example.com" className="bg-white/5 border-white/10" />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="image" className="flex items-center gap-2">
-                      <Upload className="w-4 h-4" /> Project Image (PNG/JPEG, Max 2MB)
-                    </Label>
-                    <div className="relative group">
-                      <Input 
-                        id="image" 
-                        name="image" 
-                        type="file" 
-                        accept="image/png, image/jpeg" 
-                        onChange={handleFileChange}
-                        className="bg-white/5 border-white/10 cursor-pointer file:hidden text-xs h-auto py-2"
-                      />
-                      {base64Image && (
-                        <div className="mt-2 relative h-32 w-full rounded-lg overflow-hidden border border-accent/20">
-                          <Image src={base64Image} alt="Preview" fill className="object-cover" />
-                        </div>
-                      )}
+          {isAdmin && (
+            <Dialog open={isDialogOpen} onOpenChange={(open) => {
+              setIsDialogOpen(open);
+              if (!open) setBase64Image(null);
+            }}>
+              <DialogTrigger asChild>
+                <Button className="bg-accent hover:bg-accent/80 text-black font-bold rounded-full px-8">
+                  <Plus className="w-5 h-5 mr-2" /> Add Project
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-card border-white/10 text-foreground sm:max-w-[425px] bg-black/95">
+                <form onSubmit={handleAddProject}>
+                  <DialogHeader>
+                    <DialogTitle>Add New Project</DialogTitle>
+                    <DialogDescription className="text-muted-foreground">
+                      Create a new entry for your portfolio.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="title">Title</Label>
+                      <Input id="title" name="title" placeholder="Project Name" className="bg-white/5 border-white/10" required />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="desc">Description</Label>
+                      <Textarea id="desc" name="desc" placeholder="Brief overview..." className="bg-white/5 border-white/10" required />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="tags">Tags (comma separated)</Label>
+                      <Input id="tags" name="tags" placeholder="React, Three.js, AI" className="bg-white/5 border-white/10" required />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="previewUrl">Live Preview URL</Label>
+                      <Input id="previewUrl" name="previewUrl" placeholder="https://example.com" className="bg-white/5 border-white/10" />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="image" className="flex items-center gap-2">
+                        <Upload className="w-4 h-4" /> Project Image (PNG/JPEG, Max 2MB)
+                      </Label>
+                      <div className="relative group">
+                        <Input 
+                          id="image" 
+                          name="image" 
+                          type="file" 
+                          accept="image/png, image/jpeg" 
+                          onChange={handleFileChange}
+                          className="bg-white/5 border-white/10 cursor-pointer file:hidden text-xs h-auto py-2"
+                        />
+                        {base64Image && (
+                          <div className="mt-2 relative h-32 w-full rounded-lg overflow-hidden border border-accent/20">
+                            <Image src={base64Image} alt="Preview" fill className="object-cover" />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit" className="w-full bg-primary hover:bg-primary/90">Save Project</Button>
-                </DialogFooter>
-              </form>
-            </DialogContent>
-          </Dialog>
+                  <DialogFooter>
+                    <Button type="submit" className="w-full bg-primary hover:bg-primary/90">Save Project</Button>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
 
@@ -387,19 +293,21 @@ export default function BentoGrid() {
               key={project.id}
               className="flex-none w-[320px] md:w-[450px] h-[500px] snap-start relative overflow-hidden rounded-3xl border border-white/5 bg-white/[0.02] backdrop-blur-sm transition-all duration-500 hover:border-accent/30 hover:bg-white/[0.04] group"
             >
-              <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button 
-                  size="icon" 
-                  variant="destructive" 
-                  className="rounded-full h-8 w-8"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteProject(project.id);
-                  }}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </div>
+              {isAdmin && (
+                <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button 
+                    size="icon" 
+                    variant="destructive" 
+                    className="rounded-full h-8 w-8"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteProject(project.id);
+                    }}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
 
               <div className="absolute inset-0 w-full h-full overflow-hidden">
                 <Image 
